@@ -100,7 +100,7 @@ export class ModalCreateUserComponent implements OnInit {
       nombre: this.formCreateUser.get('nombre')?.value,
       email: this.formCreateUser.get('email')?.value,
       password: this.formCreateUser.get('password')?.value,
-      rol_id: Number(this.formCreateUser.get('nombre')?.value),
+      rol_id: Number(this.formCreateUser.get('rol_id')?.value),
       adminitrador_id: this.formCreateUser.get('administrador_id')?.value
     };
 

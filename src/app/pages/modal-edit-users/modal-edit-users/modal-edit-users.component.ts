@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -13,27 +13,40 @@ import { UsersService } from 'app/services/users/users.service';
 @Component({
   selector: 'app-modal-edit-users',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatDialogModule, MatButtonModule, MatSelectModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDialogActions, MatDialogClose, MatDialogContent, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    ReactiveFormsModule
+  ],
   templateUrl: './modal-edit-users.component.html',
   styleUrl: './modal-edit-users.component.scss'
 })
-export class ModalEditUsersComponent {
+export class ModalEditUsersComponent implements OnInit {
 
   formUpdateUsers!: FormGroup;
   administratorsValues: any[] = [];
-  
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private readonly _formBuilder: FormBuilder,
     private readonly _snackBar: MatSnackBar,
     private readonly _userService: UsersService,
     private readonly dialogRef: MatDialogRef<ModalEditUsersComponent>
-  ){
-    this.formUpdateUsers();
-    this.getAllAdministrador();
+  ) {
+    this.updateFormUsers(); // ✅ Corrección: método correcto
+    this.getAllAdministrator(); // ✅ Corrección: nombre correcto
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.data?.user) {
       this.loadUserData(this.data.user);
     }
@@ -75,11 +88,11 @@ export class ModalEditUsersComponent {
 
       this._userService.updateUser(userId, userData).subscribe({
         next: (response) => {
-          this._snackBar.open(response.message, 'cerrar', { duration: 5000 });
+          this._snackBar.open(response.message, 'Cerrar', { duration: 5000 });
           this.dialogRef.close(true);
         },
         error: (error) => {
-          const errorMessage = error.error?.result || 'ocurio un error inesperado. por favor, intenta nuevamete.';
+          const errorMessage = error.error?.result || 'Ocurrió un error inesperado. Por favor, intenta nuevamente.';
           this._snackBar.open(errorMessage, 'Cerrar', { duration: 5000 });
         }
       });

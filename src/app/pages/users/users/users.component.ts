@@ -55,6 +55,7 @@ export interface User {
 export class UsersComponent {
 
   displayedColumns: string[] = [
+    'id',  
     'name',
     'email',
     'role',
@@ -105,8 +106,12 @@ export class UsersComponent {
   }
 
   createUserFormSearchFilter() {
+  this.userFormSearchFilter = this._formBuilder.group({
+    name: [''],
+    email: ['']
+  });
+}
 
-  }
 
   // Conversor de los roles 1 y 2 a administrador y usuarios
   getRoleName(rol_id: number): string {
@@ -136,6 +141,7 @@ export class UsersComponent {
     this.isLoading = true;
     this.userService.getAllUserByAdministrator(filters).subscribe({
       next: (response) => {
+        console.log('Usuarios:', response.users);
         this.usersList = response.users;
         this.dataSource.data = response.users;
         this.dataSource.paginator = this.paginator;

@@ -12,38 +12,45 @@ export class UsersService {
 
   constructor(private readonly http: HttpClient) { }
 
+  //  Crear usuario
   createUser(userData: any): Observable<any> {
     const endpoint = `${this.urlBaseServices}/api/v1/users/create`;
     return this.http.post<any>(endpoint, userData);
   }
 
+  //  Actualizar usuario
   updateUser(userId: number, userData: any): Observable<any> {
+    const endpoint = `${this.urlBaseServices}/api/v1/users/update/${userId}`;
+    return this.http.put<any>(endpoint, userData);
+  }
+
+  //  Eliminar usuario
+  deleteUser(userId: number): Observable<any> {
     const endpoint = `${this.urlBaseServices}/api/v1/users/delete/${userId}`;
     return this.http.delete<any>(endpoint);
   }
 
-  deleteUser(userId: number): Observable<any> {
-    const endpoint = `${this.urlBaseServices}/api/v1/users/create`;
-    return this.http.delete<any>(endpoint);
-  }
-
+  //  Obtener usuarios del administrador autenticado (requiere token)
   getAllUserByAdministrator(filters?: any): Observable<any> {
-    const endpoint = `${this.urlBaseServices}/api/v1/users`;
-    const params = new HttpParams({ fromObject: {
-      nombre: filters?.name || '',
-      email: filters?.email || ''
-    } });
+    const endpoint = `${this.urlBaseServices}/api/v1/users/${filters?.id || ''}`;
+    const params = new HttpParams({
+      fromObject: {
+        email: filters?.email || ''
+      }
+    });
     return this.http.get<any>(endpoint, { params });
   }
 
+  //  Obtener todos los administradores (rol_id = 1)
   getAllAdministrator(): Observable<any> {
     const endpoint = `${this.urlBaseServices}/api/v1/users/rol/1`;
     return this.http.get<any>(endpoint);
   }
 
+  //  Obtener todos los usuarios (rol_id = 2)
   getAllUsers(): Observable<any> {
     const endpoint = `${this.urlBaseServices}/api/v1/users/rol/2`;
     return this.http.get<any>(endpoint);
   }
-  
+
 }
