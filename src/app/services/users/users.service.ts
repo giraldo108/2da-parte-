@@ -1,15 +1,18 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { URL_SERVICIOS } from '@core/models/config';
-import { Observable } from 'rxjs';
+// Importaciones necesarias desde Angular y RxJS
+import { HttpClient, HttpParams } from '@angular/common/http'; // Para hacer peticiones HTTP
+import { Injectable } from '@angular/core'; // Para marcar el servicio como inyectable
+import { URL_SERVICIOS } from '@core/models/config'; // URL base para los servicios de API
+import { Observable } from 'rxjs';    // Tipo de dato para trabajar con peticiones asíncronas
+
+// Decorador que hace que el servicio esté disponible a nivel global (root)
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-
+  // URL base que se usará en todos los endpoints
   urlBaseServices: string = URL_SERVICIOS;
-
+  // Inyección del cliente HTTP de Angular
   constructor(private readonly http: HttpClient) { }
 
   //  Crear usuario

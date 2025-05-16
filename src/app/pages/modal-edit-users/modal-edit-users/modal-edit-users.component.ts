@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UsersService } from 'app/services/users/users.service';
 
+// El decorador @Component define esta clase como un componente de Angular.
 @Component({
   selector: 'app-modal-edit-users',
   standalone: true,
@@ -40,16 +41,22 @@ import { UsersService } from 'app/services/users/users.service';
   templateUrl: './modal-edit-users.component.html',
   styleUrls: ['./modal-edit-users.component.scss']
 })
+
 // ModalEditUsersComponent es una clase que representa el componente de edición de usuarios
 export class ModalEditUsersComponent {
   formUpdateUsers!: FormGroup;
   administratorsValues: any[] = [];
 
   constructor(
+    // Inyecta los datos que se pasaron a este diálogo al abrirlo. La propiedad 'data' será accesible dentro del componente.
     @Inject(MAT_DIALOG_DATA) public data: any,
+    // Inyecta FormBuilder para crear el formulario reactivo. 'readonly' indica que la propiedad solo se asigna en el constructor.
     private readonly _formBuilder: FormBuilder,
+    // Inyecta MatSnackBar para mostrar notificaciones al usuario.
     private readonly _snackBar: MatSnackBar,
+    // Inyecta el servicio UsersService para interactuar con la lógica de usuarios del backend.
     private readonly _userService: UsersService,
+    
     private readonly dialogRef: MatDialogRef<ModalEditUsersComponent>
   ) {
     // Inicializa el formulario de edición de usuario
@@ -102,12 +109,13 @@ export class ModalEditUsersComponent {
     if (this.formUpdateUsers.valid) {
       const userData = this.formUpdateUsers.value;
       const userId = this.data?.user?.id;
-
+ // Llama al método del servicio UsersService para actualizar el usuario en el backend, pasando el ID del usuario y los datos del formulario. Se subscribe al Observable resultante.
       this._userService.updateUser(userId, userData).subscribe({
         next: (response) => {
           this._snackBar.open(response.message, 'Cerrar', { duration: 5000 });
           this.dialogRef.close(true);
         },
+        // Función que se ejecuta cuando la llamada de actualización al backend falla y devuelve un error. 'error' contiene la información del error.
         error: (error) => {
           const errorMessage = error.error?.result || 'Ocurrió un error inesperado. Por favor, intenta nuevamente.';
           this._snackBar.open(errorMessage, 'Cerrar', { duration: 5000 });
