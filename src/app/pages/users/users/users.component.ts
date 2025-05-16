@@ -54,8 +54,7 @@ export interface User {
 })
 export class UsersComponent {
 
-  displayedColumns: string[] = [
-    'id',  
+  displayedColumns: string[] = [  
     'name',
     'email',
     'role',
@@ -141,7 +140,6 @@ export class UsersComponent {
     this.isLoading = true;
     this.userService.getAllUserByAdministrator(filters).subscribe({
       next: (response) => {
-        console.log('Usuarios:', response.users);
         this.usersList = response.users;
         this.dataSource.data = response.users;
         this.dataSource.paginator = this.paginator;

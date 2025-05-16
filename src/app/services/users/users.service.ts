@@ -31,15 +31,17 @@ export class UsersService {
   }
 
   //  Obtener usuarios del administrador autenticado (requiere token)
-  getAllUserByAdministrator(filters?: any): Observable<any> {
-    const endpoint = `${this.urlBaseServices}/api/v1/users/${filters?.id || ''}`;
-    const params = new HttpParams({
-      fromObject: {
-        email: filters?.email || ''
-      }
-    });
-    return this.http.get<any>(endpoint, { params });
-  }
+   getAllUserByAdministrator(id: number, filters?: any): Observable<any> {
+  const endpoint = `${this.urlBaseServices}/api/v1/users/:id`;
+  const params = new HttpParams({
+    fromObject: {
+      nombre: filters?.name || '',
+      email: filters?.email || ''
+    }
+  });
+  return this.http.get<any>(endpoint, { params });
+}
+
 
   //  Obtener todos los administradores (rol_id = 1)
   getAllAdministrator(): Observable<any> {

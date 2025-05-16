@@ -49,10 +49,8 @@
     </form>
   </div>
 
-  <mat-dialog-actions align="end">
+   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button cdkFocusInitial (click)="updateUsers()" [disabled]="formUpdateUsers.invalid">
-      Actualizar
-    </button>
+    <button mat-button cdkFocusInitial (click)="updateUsers()" [disabled]="formUpdateUsers.invalid">Actualizar</button>
   </mat-dialog-actions>
 </div>
