@@ -1,3 +1,5 @@
+// Importaciones necesarias para formularios, componentes, servicios y material design
+
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -19,6 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProjectsService } from 'app/services/projects/projects.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+// Decorador del componente
 
 @Component({
   selector: 'app-modal-edit-projects',
@@ -44,8 +47,11 @@ import { MatNativeDateModule } from '@angular/material/core';
   styleUrls: ['./modal-edit-projects.component.scss']
 })
 export class ModalEditProjectsComponent {
+    // Definición del formulario reactivo
+
   formUpdateProjects!: FormGroup;
- 
+   // Constructor con inyección de dependencias
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private readonly _formBuilder: FormBuilder,
@@ -57,12 +63,14 @@ export class ModalEditProjectsComponent {
     this.updateFormProjects();
     
   }
+  // Ciclo de vida ngOnInit: carga los datos si existe un proyecto para editar
 
   ngOnInit() {
     if (this.data?.project) {
       this.loadProjectData(this.data.project);
     }
   }
+  // Método para crear el formulario reactivo con validaciones
 
   updateFormProjects() {
     this.formUpdateProjects = this._formBuilder.group({
@@ -70,6 +78,7 @@ export class ModalEditProjectsComponent {
       descripcion: ['', Validators.required],
     });
   }
+  // Método para rellenar el formulario con los datos del proyecto recibido
 
   loadProjectData(project: any) {
     this.formUpdateProjects.patchValue({
@@ -77,11 +86,13 @@ export class ModalEditProjectsComponent {
       descripcion: project.descripcion,
     });
   }
+  // Método que se ejecuta al hacer clic en "Actualizar proyecto"
 
   updateProject() {
     if (this.formUpdateProjects.valid) {
       const projectData = this.formUpdateProjects.value;
       const projectId = this.data?.project?.id;
+      // Llamada al servicio para actualizar
 
       this._projectService.updateProject(projectId, projectData).subscribe({
         next: (response) => {

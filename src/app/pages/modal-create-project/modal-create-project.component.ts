@@ -1,3 +1,5 @@
+// Importaciones necesarias desde Angular y Angular Material
+
 import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -17,6 +19,7 @@ import Swal from 'sweetalert2';
 import { UsersService } from 'app/services/users/users.service';
 import { AuthService } from '@core/service/auth.service';
 
+// Decorador que define el componente como standalone y configura los módulos necesarios
 
 @Component({
   selector: 'app-modal-create-project',
@@ -41,11 +44,13 @@ import { AuthService } from '@core/service/auth.service';
   templateUrl: './modal-create-project.component.html',
   styleUrls: ['./modal-create-project.component.scss']
 })
+// Clase del componente que implementa OnInit para ejecutar lógica al iniciarse
 
 export class ModalCreateProjectComponent  implements OnInit {
   formCreateProject!: FormGroup;
   administratorsValues: any[] = [];
   statusOptions: string[] = ['active', 'inactive', 'completed'];
+  // Inyección de dependencias
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -60,10 +65,12 @@ export class ModalCreateProjectComponent  implements OnInit {
     this.createFormProjects();
   }
 
-  
+    // Se ejecuta al inicializar el componente
+
   ngOnInit(): void {
     this.getAllAdministrator();
   }
+  // Crea el formulario con validadores requeridos para los campos
 
   createFormProjects() {
     this.formCreateProject = this._formBuilder.group({
@@ -73,6 +80,7 @@ export class ModalCreateProjectComponent  implements OnInit {
 
     });
   }
+  // Llama al servicio de usuarios para obtener todos los administradores
 
   getAllAdministrator() {
     this._userService.getAllAdministrator().subscribe({
@@ -85,6 +93,7 @@ export class ModalCreateProjectComponent  implements OnInit {
       }
     });
   }
+  // Función que se llama al enviar el formulario
 
   onSubmit() {
     if (this.formCreateProject.invalid) {
@@ -92,20 +101,25 @@ export class ModalCreateProjectComponent  implements OnInit {
       return;
     }
 
+    // Se extraen los valores del formulario
 
     const projectData = {
       nombre: this.formCreateProject.get('nombre')?.value,
       descripcion: this.formCreateProject.get('descripcion')?.value,
       administrador_id: this.formCreateProject.get('administrador_id')?.value
     };
+    // Se envía la información al backend a través del servicio
 
     this._projectService.createProject(projectData).subscribe({
       next: (response) => {
-        
+                // Si se crea correctamente, se muestra un snackbar y se cierra el modal
+
         this._snackBar.open(response.message, 'Cerrar', { duration: 5000 });
         this._dialogRef.close(true);
       },
       error: (error) => {
+                // Si ocurre un error, se muestra un mensaje adecuado
+
         const errorMessage = error.error?.message || 'Ocurrió un error al crear el proyecto. Por favor, intenta nuevamente.';
         this._snackBar.open(errorMessage, 'Cerrar', { duration: 5000 });
       }

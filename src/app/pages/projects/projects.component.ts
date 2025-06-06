@@ -1,3 +1,4 @@
+// Importaciones necesarias de Angular, Angular Material y otros módulos
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,12 +22,12 @@ import { Router } from '@angular/router';
 import { ModalCreateProjectComponent } from 'app/pages/modal-create-project/modal-create-project.component';
 import { ModalEditProjectsComponent } from 'app/pages/modal-edit-projects/modal-edit-projects.component';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-
+// Interfaz que representa un proyecto
 export interface Project {
   name: string;
   status: string;
 }
-
+// Decorador del componente
 @Component({
   selector: 'app-projects',
   standalone: true,
@@ -52,7 +53,7 @@ export interface Project {
   styleUrl: './projects.component.scss'
 })
 export class ProjectsComponent {
-
+// Columnas que se mostrarán en la tabla
   displayedColumns: string[] = [  
     'name',
     'description',
@@ -68,35 +69,35 @@ export class ProjectsComponent {
     },
   ];
 
-  // Table
+  // Table de datos
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
-  // Search
+  // Filtro de búsqueda
   projectFormSearchFilter!: FormGroup;
   projectsList: any[] = [];
-
+// Indicador de carga
   isLoading = false;
-
+// Valores por defecto del filtro
   projectDefaultFilterSearch: any = {
     name: undefined,
     status: undefined,
   }
-
+// Inyección de dependencias
   constructor(
     private readonly _formBuilder: FormBuilder,
     private readonly projectService: ProjectsService,
     private readonly dialogModel: MatDialog,
     private readonly _sanckBar: MatSnackBar
   ) { }
-  
+  // Inicialización del componente
   ngOnInit(): void {
     this.createProjectFormSearchFilter();
     this.getAllProjectsByAdministrator();
     this.handleProjectFilterChance('name', 'name');
     this.handleProjectFilterChance('status', 'status');
   }
-
+// Crea el formulario reactivo para los filtros
   createProjectFormSearchFilter() {
     this.projectFormSearchFilter = this._formBuilder.group({
       name: [''],
@@ -128,7 +129,7 @@ export class ProjectsComponent {
       this.getAllProjectsByAdministrator({ ...this.projectDefaultFilterSearch, [filterKey]: value });
     });
   }
-
+  // Consulta todos los proyectos del administrador con posibles filtros
   getAllProjectsByAdministrator(filters?: any): void {
     this.isLoading = true;
     this.projectService.getAllProjectsByAdministrator(1, filters).subscribe({
@@ -143,7 +144,7 @@ export class ProjectsComponent {
       }
     });
   }
-
+// Abre el modal para crear un proyecto nuevo
   openModalCreateProject(): void {
     const dialogRef = this.dialogModel.open(ModalCreateProjectComponent, {
       minWidth: '300px',
@@ -158,7 +159,7 @@ export class ProjectsComponent {
       }
     });
   }
-
+// Abre el modal para ver la información de un proyecto (modo solo lectura)
   viewProject(projectInformation: any): void {
   const dialogRef = this.dialogModel.open(ModalEditProjectsComponent, {
     minWidth: '300px',
@@ -175,7 +176,7 @@ export class ProjectsComponent {
   }); 
 }
 
-
+// Abre el modal para editar un proyecto
   openModalUpdateProject(projectInformation: any): void {
     const dialogRef = this.dialogModel.open(ModalEditProjectsComponent, {
       minWidth: '300px',
@@ -191,7 +192,7 @@ export class ProjectsComponent {
       }
     }); 
   }
-
+// Elimina un proyecto y muestra notificación
   deleteProject(projectId: number): void {
     this.projectService.deleteProject(projectId).subscribe({
       next: (response) => {

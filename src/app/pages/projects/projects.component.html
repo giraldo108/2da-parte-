@@ -1,24 +1,34 @@
 <p>projects works!</p>
+<!-- Sección principal del contenido -->
 <section class="content">
     <div class="content-block">
+            <!-- Iteración de breadcrumbs para generar navegación -->
         @for (breadscrum of breadscrums; track breadscrums) {
             <div class="block-header">
+                        <!-- Componente de breadcrumb personalizado -->
                 <!-- breadcrumb -->
                 <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.item" [active_item]="breadscrum.active">
                 </app-breadcrumb>
             </div>
         }
+            <!-- Contenedor para la sección de búsqueda y tabla -->
         <div class="row-clearfix">
             <div class="card-search">
                 <div class="card col-md-12">
                     <div class="body">
+                                    <!-- Formulario de búsqueda con reactive forms -->
+
                         <form [formGroup]="projectFormSearchFilter" class="row col-md-12 col-lg-12">
+                                          <!-- Campo de búsqueda por nombre de proyecto -->
+
                             <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-3">
                                 <mat-form-field class="w-100" appearance="outline">
                                     <mat-label>Nombre del proyecto</mat-label>
                                     <input matInput formControlName="name">
                                 </mat-form-field>
                             </div>
+                                          <!-- Campo de búsqueda por estado del proyecto -->
+
                             <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 mb-3 d-flex align-items-center">
                                 <mat-form-field class="w-100" appearance="outline">
                                     <mat-label>Estado</mat-label>
@@ -26,6 +36,7 @@
                                 </mat-form-field>
                             </div>
                         </form>
+            <!-- Encabezado de la tabla con título y botón de crear proyecto -->
 
                         <div class="materialTableHeader">
                             <div class="left">
@@ -46,17 +57,20 @@
                         <div class="table-responsive">
                             <table mat-table [dataSource]="dataSource" class="w-100">
                                 <mat-spinner *ngIf="isLoading" class="loading-spinner"></mat-spinner>
-                                
+                                                <!-- Columna: Nombre -->
+
                                 <ng-container matColumnDef="name">
                                     <th mat-header-cell *matHeaderCellDef> Nombre </th>
                                     <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
                                 </ng-container>
-                                
+                                                <!-- Columna: Descripción -->
+
                                 <ng-container matColumnDef="description">
                                     <th mat-header-cell *matHeaderCellDef> Descripción </th>
                                     <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
                                 </ng-container>
-                                
+                                                <!-- Columna: Estado (conversión a texto legible) -->
+
                                 <ng-container matColumnDef="status">
                                     <th mat-header-cell *matHeaderCellDef width="15%"> Estado </th>
                                     <td mat-cell *matCellDef="let element"> {{ getStatusName(element.estado) }} </td>
