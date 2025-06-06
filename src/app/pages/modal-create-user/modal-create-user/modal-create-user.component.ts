@@ -72,6 +72,7 @@ export class ModalCreateUserComponent implements OnInit {
   getAllAdministrator() {
     this._userService.getAllAdministrator().subscribe({
       next: (res) => {
+        console.log('Respuesta administradores:', res);
         this.administratorsValues = res.users;
       },
       error: (err) => {
@@ -81,12 +82,16 @@ export class ModalCreateUserComponent implements OnInit {
   }
 // Método que se llama cuando cambia el valor del control 'rol_id' en el formulario.
   onChangeRole(event: any) {
-    if (event.value === '1') {
-      this.hideAdministratorField();
+    console.log('Rol seleccionado:', event.value);
+    if (event.value === '1') { 
+       this.hideAdministratorField();
+      
     } else {
-      this.showAdministratorField();
+     
+     this.showAdministratorField();
     }
   }
+  
 // Método que se llama cuando se envía el formulario de creación de usuarios.
   onSubmit() {
     if (this.formCreateUser.invalid) {

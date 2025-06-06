@@ -1,0 +1,13 @@
+<mat-form-field appearance="fill" class="w-100">
+  <mat-label>Seleccionar usuarios</mat-label>
+  <mat-select [formControl]="usersControl" multiple>
+    <mat-option *ngFor="let user of allUsers" [value]="user.id">
+      {{ user.nombre }} {{ user.apellido }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div class="text-right mt-4">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-flat-button color="primary" (click)="assignUsers()">Asignar</button>
+</div>

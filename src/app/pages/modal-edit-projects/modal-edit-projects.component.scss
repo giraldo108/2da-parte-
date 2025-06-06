@@ -1,0 +1,45 @@
+.view-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+}
+
+.view-field {
+  label {
+    font-weight: 600;
+    color: #495057;
+    display: block;
+    margin-bottom: 0.8rem;
+    font-size: 0.92rem;
+    letter-spacing: 0.3px;
+  }
+  
+  p {
+    margin: 0;
+    padding: 1.2rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    word-break: break-word;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    border: 1px solid #e9ecef;
+    transition: all 0.25s ease;
+    font-size: 0.96rem;
+    line-height: 1.6;
+    color: #212529;
+    
+    &:hover {
+      background: #f1f3f5;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+    }
+    
+    &:empty::before {
+      content: "No especificado";
+      color: #adb5bd;
+      font-style: italic;
+    }
+  }
+}

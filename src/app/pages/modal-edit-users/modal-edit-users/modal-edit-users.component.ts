@@ -95,6 +95,7 @@ export class ModalEditUsersComponent {
   getAllAdministrator() {
     this._userService.getAllAdministrator().subscribe({
       next: (res) => {
+        console.log('Respuesta del backend:', res); // <-- Verifica qué trae la API
         this.administratorsValues = res.users;
       },
       error: (err) => {

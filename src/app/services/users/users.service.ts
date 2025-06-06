@@ -35,7 +35,7 @@ export class UsersService {
 
   //  Obtener usuarios del administrador autenticado (requiere token)
    getAllUserByAdministrator(id: number, filters?: any): Observable<any> {
-  const endpoint = `${this.urlBaseServices}/api/v1/users/:id`;
+  const endpoint = `${this.urlBaseServices}/api/v1/users/${id}`;
   const params = new HttpParams({
     fromObject: {
       nombre: filters?.name || '',
